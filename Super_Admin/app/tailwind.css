@@ -1,0 +1,316 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%;
+    --radius: 0.5rem;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+  }
+
+  .dark,
+  :root[class~="dark"] {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Phone country */
+.PhoneInputInput {
+  height: 100%;
+  border: none;
+  outline: none;
+}
+
+.css-1jqq78o-placeholder {
+  font-size: 14px;
+}
+
+/* OTP input */
+.otpInput {
+  width: 60px !important;
+  height: 60px;
+  margin: 0 4px;
+  font-size: 2rem;
+  text-align: center;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.css-1p3m7a8-multiValue {
+  background-color: theme('colors.gray.100') !important;
+  border-radius: 5px !important;
+}
+.css-13cymwt-control {
+  border-color: theme('colors.gray.200') !important;
+}
+
+.ant-dropdown-menu {
+  border-radius: 12px !important;
+  /* padding: 13px !important; */
+}
+.ant-dropdown-menu-item {
+  height: 36px !important;
+  padding: 0 13px !important;
+}
+
+input::placeholder {
+  color: #6B7280 !important ;
+}
+
+.custom-select .ant-select-selector {
+  background-color: #F3F4F6 !important; /* Similar to bg-gray-100 */
+  border: none !important;
+}
+.custom-select :where(.css-dev-only-do-not-override-5wsri9).ant-select-single .ant-select-selector .ant-select-selection-item, :where(.css-dev-only-do-not-override-5wsri9).ant-select-single .ant-select-selector .ant-select-selection-placeholder {
+  text-align: left !important;
+}
+
+.custom-select :where(.css-dev-only-do-not-override-5wsri9).ant-select-single .ant-select-selector .ant-select-selection-item {
+  text-align: left !important;
+}
+
+.custom-select .ant-select-selector:hover {
+  background-color: #F3F4F6 !important; /* Lighter shade for hover */
+}
+
+
+.quill {
+  border-radius: 12px !important;
+}
+.ant-layout  {
+  background-color: white !important;
+}
+
+.ant-input {
+  /* border-color: theme('colors.gray.200') !important; */
+  /* background-color: #F3F4F6 !important; */
+  /* border-color: #F3F4F6 !important; */
+  height: 36px !important;
+}
+
+.ant-table-cell {
+  font-weight: 500 !important;
+}
+
+.ant-table-thead tr th {
+  background-color: #F3F4F6 !important;
+  padding: 8px !important;
+}
+
+.ql-container{
+  min-height: 200px !important;
+}
+
+.ant-table td {
+  padding: 9.5px !important;
+}
+
+.ant-table {
+  border-left: 1px solid #F3F4F6 !important;
+  border-right: 1px solid #F3F4F6 !important;
+}
+
+.ant-tabs-tab-btn {
+  /* color: #2563EB !important; */
+  text-shadow: none !important;
+}
+
+.ant-tabs-tab {
+  color: #6B7280 !important;
+}
+
+/* CUSTOMIZE THE FORM ANTD */
+
+.custom-form input {
+  height: 36px !important;
+  /* background-color: theme('colors.gray.100') !important; */
+  /* border-color: transparent ; */
+}
+.ant-form-item-control-input-content {
+  height: 36px !important;
+}
+
+
+
+.ant-input-affix-wrapper {
+  height: 36px ;
+  display: flex;
+  align-items: center;
+}
+.ant-select {
+  height: 36px !important;
+}
+
+.ant-select-selector {
+  height: 36px !important;
+}
+
+.ant-picker  {
+  /* background-color: theme('colors.gray.100'); */
+  /* border-color: transparent; */
+  height: 36px !important;
+}
+
+.ant-slider-track {
+  background-color: theme('colors.blue.500') !important;
+}
+
+.custom-input .ant-select div, .custom-input input{
+  background-color: theme('colors.gray.100') !important;
+  border-color: transparent !important;
+  height: 36px !important;
+  border: none;
+}
+
+.hide-toolbar .ql-toolbar {
+  display: none !important;
+}
+
+.hide-toolbar .ql-container {
+  border: none !important;
+}
+
+.ql-toolbar {
+  background-color: theme('colors.gray.100') !important;
+}
+
+.quill .ql-toolbar{
+  border-top-right-radius: 12px !important;
+  border-top-left-radius: 12px !important;
+  border:1px solid  theme('colors.gray.200') !important;
+}
+.quill .ql-container {
+  border-bottom-left-radius: 12px !important;
+  border-bottom-right-radius: 12px !important;
+  border:1px solid  theme('colors.gray.200') !important;
+}
+
+#ages_help {
+  margin-top: 20px;
+}
+
+.css-13cymwt-control {
+  background-color: theme('colors.gray.100') !important; 
+  border-radius: 6px !important;
+}
+
+.custom-date-range .ant-picker-dropdown{
+  box-shadow: none !important;
+  display: none !important;
+}
+
+.custom-editor-copy .ql-clipboard {
+  display: none !important;
+}
+
+
+/* width */
+.notification::-webkit-scrollbar {
+  width: 5px !important;
+}
+
+/* Track */
+.notification::-webkit-scrollbar-track {
+  background: theme('colors.gray.100') !important;
+}
+
+/* Handle */
+.notification::-webkit-scrollbar-thumb {
+  background: theme('colors.gray.300');
+}
+
+.ant-popover-inner {
+  padding: 0 !important;
+}
+
+.custom-collab .ant-collapse-content-box {
+  padding: 0px !important;
+}
+
+/* Custom background color for the Select component */
+.custom-collab .ant-select-selector {
+  background-color: theme('colors.gray.100') !important;
+  border: none !important;
+}
+
+/* Custom background color for the dropdown */
+.custom-collab .ant-select-dropdown {
+  background-color: theme('colors.gray.100') !important;
+}
+
+/* Custom background color for selected item */
+.custom-collab .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background-color: theme('colors.gray.100') !important;
+}
+
+.ant-drawer-close {
+  position: absolute;
+  right: 0 !important;
+}
+
+.ant-drawer-footer .ant-btn {
+  font-weight: 600 !important;
+}
+
+.ant-collapse-header {
+  height: 40px !important;
+  padding: 9px 10px !important;
+  border-bottom: 0.5px solid theme('colors.gray.50') !important;
+}
+
+.ant-collapse-content-box {
+  padding: 0 !important;
+}
