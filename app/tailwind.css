@@ -314,3 +314,9 @@ input::placeholder {
 .ant-collapse-content-box {
   padding: 0 !important;
 }
+
+.ant-menu-item-selected{
+  background-color: white !important;
+  color: theme('colors.gray.800') !important;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 1.4px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 1px -1px !important;
+}

@@ -16,7 +16,7 @@ export const useCheckAuth = () => {
         try {
             const res = await getMe();
             updateUserInfo(res.data);
-            location.pathname ==='/' && navigate('/manager/dashboard')
+            location.pathname ==='/' && navigate('/admin/overview')
            
         } catch (error) {
             updateUserInfo(null);

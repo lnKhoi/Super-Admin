@@ -1,20 +1,18 @@
 import { FC } from 'react';
 
 import {
-  ArchiveBoxIcon,
-  ChartBarIcon,
-  ChartBarSquareIcon,
+  CheckBadgeIcon,
   Cog6ToothIcon,
   CreditCardIcon,
-  DocumentChartBarIcon,
   EyeIcon,
-  FireIcon,
-  HomeIcon,
   PencilSquareIcon,
+  Square3Stack3DIcon,
+  Squares2X2Icon,
   TrashIcon,
   UserCircleIcon,
-  UserIcon,
   UserPlusIcon,
+  UsersIcon,
+  WrenchScrewdriverIcon,
 } from '@heroicons/react/24/outline';
 
 export type NavItem = {
@@ -28,55 +26,12 @@ export type NavItem = {
 
 
 export const navItems: NavItem[] = [
-  { to: "/manager/dashboard", icon: HomeIcon, label: "Dashboard" },
-  {
-    to: "/manager/campaigns",
-    icon: FireIcon,
-    label: "Campaigns",
-    permissions: ['view-campaign']
-  },
-  {
-    to: "/manager/creators",
-    icon: UserIcon,
-    label: "Creators",
-    permissions: ['view-imported-influencer']
-  },
-  {
-    to: "/manager/contents",
-    icon: DocumentChartBarIcon,
-    label: "Contents",
-    permissions: ['view-content']
-  },
-  {
-    to: "",
-    icon: ArchiveBoxIcon,
-    label: "Products",
-    permissions: ['view-influencer-orders'],
-    children: [
-      { label: 'Order Tracking', to: '/manager/products/order-tracking', icon: null,  permissions: ['view-influencer-orders'], },
-    ],
-  },
-  {
-    to: "/manager/finance",
-    icon: ChartBarSquareIcon,
-    label: "Finance",
-    permissions: ['view-finance-overview']
-  },
-  {
-    to: "/manager/analytics",
-    icon: ChartBarIcon,
-    label: "Analytics",
-  },
-  {
-    to: "/",
-    icon: Cog6ToothIcon,
-    label: "Settings",
-    children: [
-      { label: 'Users', to: '/manager/users-permission', icon: null, permissions: ['view-user'] },
-      { label: 'Roles', to: '/manager/roles', icon: null, permissions: ['view-role'] },
-      { label: 'Permissions', to: '/manager/permissions', icon: null, permissions: ['view-permissions'] },
-    ],
-  },
+  { to: "/admin/overview", icon: Squares2X2Icon, label: "Overview" },
+  { to: "/admin/users", icon: UsersIcon, label: "Users" },
+  { to: "/admin/organizations", icon: Square3Stack3DIcon, label: "Organizations" },
+  { to: "/admin/billing", icon: CheckBadgeIcon, label: "Billing" },
+  { to: "/admin/configuration", icon: WrenchScrewdriverIcon, label: "Configuration" },
+  { to: "/admin/settings", icon: Cog6ToothIcon, label: "Settings" },
 ];
 
 export const profileTab = [

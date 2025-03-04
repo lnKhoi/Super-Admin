@@ -23,7 +23,6 @@ import {
 import Logo from '~/assets/logo.svg';
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
-import { Tabs } from '~/components/ui/tabs';
 import {
   EMAIL_REQUIRED,
   INVALID_EMAIL,
@@ -78,7 +77,7 @@ export default function Page() {
       await login3rdParty('brand', user.emails?.[0]?.value, user?.displayName, '')
         .then((res) => {
           localStorage.setItem('remix_us_tk', res?.data?.id)
-          navigate('/manager/dashboard')
+          navigate('/admin/overview')
         }
         )
     }
@@ -110,7 +109,7 @@ export default function Page() {
   return (
     <div className="w-full mx-auto h-[100vh] flex items-center bg-white justify-center">
       <ToastContainer />
-      <div className="mx-asuto flex flex-col items-center w-[460px]">
+      <div className="mx-auto flex flex-col items-center w-[460px]">
         <img src={Logo} alt="logo" className="mb-[30px]" />
         <h1 className="text-3xl mb-[30px] text-black font-bold">
           Log in to your account
@@ -128,11 +127,9 @@ export default function Page() {
             // err !== '' ? setErr('') : null
             return (
               <>
-                <Tabs
-                  className="w-[460px]"
-                >
-                  <FormikForm className="mt-[30px]">
-                    <div className="grid gap-4">
+             
+                  <FormikForm className="mt-[30px] w-full">
+                    <div className="grid w-full  gap-4">
                       <div className="grid gap-2">
                         <Field
                           onChange={handleChange}
@@ -191,7 +188,6 @@ export default function Page() {
                       </Link>
                     </div>
                   </FormikForm>
-                </Tabs>
               </>
             )
           }}
