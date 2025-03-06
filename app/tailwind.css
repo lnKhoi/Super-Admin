@@ -315,8 +315,22 @@ input::placeholder {
   padding: 0 !important;
 }
 
-.ant-menu-item-selected{
+.ant-menu-item-selected, .custom-subtab{
   background-color: white !important;
   color: theme('colors.gray.800') !important;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 1.4px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 1px -1px !important;
+}
+
+.custom-config .ant-collapse-content {
+  background: #f4f4f4 !important;
+  padding: 12px 40px;
+}
+
+.custom-config .ant-collapse-content  {
+  border-top: 0px solid  !important;
+}
+
+.nav-items {
+  background-color: transparent !important;
+  display: none !important;
 }

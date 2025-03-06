@@ -1,10 +1,14 @@
-import { createElement } from 'react';
+import {
+  createElement,
+  useState,
+} from 'react';
 
 import {
   Layout,
   Menu,
 } from 'antd';
 import Logo from '~/assets/logo.svg';
+import CustomConfig from '~/components/configuration/CustomConfig';
 import {
   NavItem,
   navItems,
@@ -22,29 +26,40 @@ import {
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
-// Utility to render icons dynamically
+// Utility function to render icons dynamically
 const renderIcon = (Icon: React.ComponentType<any> | null, className = "h-5 w-5") => {
   return Icon ? createElement(Icon, { className }) : null;
 };
 
-// Sidebar Menu Component
 function SidebarMenu({
   items,
+  onLogout,
+  permissions,
+  activeCustomConfig,
+  setActiveCustomConfig,
+  activeMenuItem,
+  setActiveMenuItem,
 }: {
   items: NavItem[];
   onLogout: () => void;
   permissions: Permission[];
+  activeCustomConfig: boolean;
+  setActiveCustomConfig: (active: boolean) => void;
+  activeMenuItem: string | null;
+  setActiveMenuItem: (key: string | null) => void;
 }) {
   const location = useLocation();
-
 
   return (
     <Menu
       mode="inline"
-      defaultSelectedKeys={[location.pathname]}
+      selectedKeys={activeCustomConfig ? [] : [activeMenuItem || location.pathname]}
+      onClick={({ key }) => {
+        setActiveMenuItem(key); // Activate menu item
+        setActiveCustomConfig(false); // Deactivate CustomConfig
+      }}
       style={{
-        height: "100%",
-        paddingTop:18,
+        paddingTop: 18,
         borderRight: 0,
         backgroundColor: "#F4F4F4",
       }}
@@ -54,19 +69,7 @@ function SidebarMenu({
           <SubMenu
             key={item.to}
             title={
-              <div
-                className="flex items-center gap-2"
-                style={{
-                  fontSize: 14,
-                  alignItems: "center",
-                  height: 36,
-                  display: "flex",
-                  width: "100%",
-                  marginTop: 4,
-                  marginBottom: 4,
-                  marginLeft: 4,
-                }}
-              >
+              <div className="flex items-center gap-2 text-sm font-medium">
                 {item.icon && renderIcon(item.icon)}
                 <span>{item.label}</span>
               </div>
@@ -75,7 +78,7 @@ function SidebarMenu({
             {item.children.map((child) => (
               <Menu.Item key={child.to}>
                 <Link to={child.to}>
-                  <div className="flex items-center gap-2">
+                  <div className="flex nav-item items-center gap-2">
                     {child.icon && renderIcon(child.icon)}
                     <span>{child.label}</span>
                   </div>
@@ -84,15 +87,9 @@ function SidebarMenu({
             ))}
           </SubMenu>
         ) : (
-          <Menu.Item
-            style={{ height: 36, marginTop: 4, width: 235, marginLeft: 10, padding: 10 }}
-            key={item.to}
-          >
+          <Menu.Item key={item.to} style={{ height: 36, marginTop: 4, width: 237, marginLeft: 11, padding: 10 }}>
             <Link to={item.to}>
-              <div
-                style={{ fontSize: 14, display: "flex" }}
-                className="flex items-center h-full gap-2"
-              >
+              <div className="flex items-center h-full gap-2 text-sm font-medium">
                 {item.icon && renderIcon(item?.icon)}
                 {item.label}
               </div>
@@ -104,17 +101,17 @@ function SidebarMenu({
   );
 }
 
-
-// Main Page Component with Route Protection
 function Page() {
   const { userInfo } = useAuthContext();
   const navigate = useNavigate();
+  const [activeCustomConfig, setActiveCustomConfig] = useState(false);
+  const [activeMenuItem, setActiveMenuItem] = useState<string | null>(null);
 
   const handleLogout = () => {
-    navigate('/login')
-    localStorage.clear()
-    sessionStorage.clear()
-  }
+    navigate('/login');
+    localStorage.clear();
+    sessionStorage.clear();
+  };
 
   return (
     <Layout style={{ height: "100vh" }}>
@@ -122,13 +119,20 @@ function Page() {
         <div className="h-[60px] flex notification items-center bg-[#f4f4f4] border-b border-b-gray-200 pr-5 pl-[27px] justify-between">
           <img src={Logo} className="h-[24px]" alt="logo" />
         </div>
-        <SidebarMenu
-          items={navItems}
-          onLogout={handleLogout}
-          permissions={userInfo?.permissions as Permission[] || []}
-        />
+       
+          <SidebarMenu
+            items={navItems.slice(0, navItems.length - 1)}
+            onLogout={handleLogout}
+            permissions={userInfo?.permissions as Permission[] || []}
+            activeCustomConfig={activeCustomConfig}
+            setActiveCustomConfig={setActiveCustomConfig}
+            activeMenuItem={activeMenuItem}
+            setActiveMenuItem={setActiveMenuItem}
+          />
+    
+        <CustomConfig activeCustomConfig={activeCustomConfig} setActiveCustomConfig={setActiveCustomConfig} setActiveMenuItem={setActiveMenuItem} />
       </Sider>
-      <div className="flex w-full bg-white  flex-col h-[100vh] overflow-y-scroll">
+      <div className="flex w-full bg-white flex-col h-[100vh] overflow-y-scroll">
         <Outlet />
       </div>
     </Layout>
