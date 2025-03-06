@@ -27,7 +27,6 @@ function Payment({ mainConfig }: PaymentProps) {
     }, [mainConfig]);
 
     const onFinish = (values: any) => {
-        console.log('Form values:', values);
         message.success('Payment configuration saved successfully!');
     };
 
