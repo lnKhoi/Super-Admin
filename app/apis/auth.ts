@@ -9,8 +9,8 @@ import {
   postData,
 } from './axiosClient';
 
-export const login = (email: string, password: string) => {
-  return postData(`api/v1/auth/login`, { email, password })
+export const login = (email: string) => {
+  return postData(`api/v1/super-admin/login`, { email })
 }
 
 export const registerBrand = (payload: SignupPayload) => {
@@ -42,7 +42,6 @@ export const getMe = () => {
 
 export type OTPPayload = {
   otp: string
-  userId: string
 }
 
 export type ChangePasswordPayload = {
@@ -52,7 +51,7 @@ export type ChangePasswordPayload = {
 }
 
 export const verifyOTP = (payload: OTPPayload) => {
-  return postData('/api/v1/auth/validate-otp/active-user', payload)
+  return postData('/api/v1/super-admin/validate-otp/super-admin-login', payload)
 }
 
 export const login3rdParty = (role: string, email: string, name: string, phone: string) => {
@@ -80,5 +79,6 @@ export const updatePasswordDefault = () => {
 }
 
 export const resendOtp = (email: string) => {
-  return postData(`/api/v1/auth/resend-otp/active-user`, { email })
+  return postData(`/api/v1/super-admin/resend-otp/super-admin-login`, { email })
 }
+

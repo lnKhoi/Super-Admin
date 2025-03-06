@@ -5,6 +5,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+
 import { convertImage } from '~/apis/campaign';
 
 const ReactQuill = React.lazy(() => import('react-quill'));
@@ -32,8 +33,6 @@ const Editor = ({
   const handleProcedureContentChange = async (content: string) => {
     setCode(content);
     onChange?.(content);
-    console.log(content);
-
   };
 
   const uploadToCloudinary = async (file: File): Promise<string> => {

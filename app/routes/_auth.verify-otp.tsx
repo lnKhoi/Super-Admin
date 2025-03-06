@@ -10,13 +10,15 @@ import {
   ToastContainer,
 } from 'react-toastify';
 import {
+  getMe,
   OTPPayload,
   resendOtp,
   verifyOTP,
 } from '~/apis/auth';
-import LoginBanner from '~/assets/login-banner.png';
+import Background from '~/assets/login-bg.png';
 import Logo from '~/assets/logo.svg';
 import Loading from '~/components/ui/loading';
+import { useAuthContext } from '~/contexts/auth.context';
 import { useCountdown } from '~/hooks/useCountdown';
 
 import { MetaFunction } from '@remix-run/cloudflare';
@@ -27,13 +29,14 @@ import {
 } from '@remix-run/react';
 
 export const meta: MetaFunction = () => {
-  return [{ title: 'Spiral - Verify OTP' }];
+  return [{ title: 'Verify OTP' }];
 };
 
 export default function Page() {
   const { id } = useParams();
   const location = useLocation();
 
+  const {updateUserInfo} = useAuthContext()
   const navigate = useNavigate();
   const [otp, setOtp] = useState<string[]>(Array(6).fill(''));
   const [err, setErr] = useState<string>('');
@@ -53,7 +56,6 @@ export default function Page() {
   };
 
   const handleResendOtp = () => {
-    console.log(location.state.email)
     resendOtp(location?.state?.email).then(() => {
       toast.success('Please check email to get new OTP');
     })
@@ -62,12 +64,13 @@ export default function Page() {
   const handleVerifyOTP = async (): Promise<void> => {
     setLoading(true);
     const otpString = otp.join('');
-    const payload = { userId: id, otp: otpString, email: location?.state?.email };
+    const payload = { otp: otpString, email: location?.state?.email };
 
     await verifyOTP(payload as OTPPayload)
-      .then(() => {
+      .then((res) => {
         toast.success('Verify successfully!');
-        setTimeout(() => navigate('/login'), 1000);
+        localStorage.setItem('remix_us_tk',res.data.id)
+        handleLogin()
       })
       .catch((err) => {
         setErr(err?.message || 'Verification failed.');
@@ -97,6 +100,13 @@ export default function Page() {
     }
   };
 
+  const handleLogin = async (): Promise<void> => {
+    await getMe().then((res) => {
+        updateUserInfo(res.data)
+        navigate('/admin/overview')
+    }).catch((err) => toast.error(err?.message))
+  }
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
     if (e.key === 'Backspace' && otp[index] === '' && index > 0) {
       const prevInput = document.getElementById(`otp-${index - 1}`);
@@ -116,15 +126,21 @@ export default function Page() {
     }
   }, [otp]);
 
+  useEffect(() => {
+    location?.state?.email == null && navigate('/login')
+  }, [location])
+
   return (
-    <div className="flex h-screen w-full items-center justify-between bg-gray-100">
+    <div
+      style={{
+        backgroundImage: `url(${Background})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+      className="flex h-screen w-full items-center justify-center bg-gray-100">
       <ToastContainer />
-      <div className="flex min-h-full w-1/2 flex-col items-center justify-center bg-white shadow-lg">
-        <img
-          src={Logo}
-          alt="logo"
-          className="mb-6 h-12 object-contain"
-        />
+      <img className='absolute top-16 left-1/2 transform -translate-x-1/2 -translate-y-1/2' src={Logo} alt="logo" />
+      <div className="flex  flex-col items-center justify-center w-[460px] h-[352px] bg-white rounded-2xl shadow-lg">
         <h1 className="mb-2 text-3xl font-bold text-gray-800">Email Verification</h1>
         <p className="text-sm text-gray-600">A Verification code has been sent to</p>
         <span className="mt-1 text-sm font-bold text-gray-700">
@@ -167,13 +183,7 @@ export default function Page() {
           </button>
         </div>
       </div>
-      <div className="hidden h-full w-1/2 lg:block">
-        <img
-          src={LoginBanner}
-          alt="banner"
-          className="h-full w-full object-cover"
-        />
-      </div>
+
     </div>
   );
 }
