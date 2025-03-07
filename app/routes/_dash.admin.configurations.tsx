@@ -6,15 +6,12 @@ import React, {
 import { getMainConfig } from '~/apis/configuration';
 import IntegrationSetup from '~/components/configuration/IntegrationSetup';
 import Payment from '~/components/configuration/Payment';
-import PolicyAndConditions
-  from '~/components/configuration/PolicyAndConditions';
 import Header from '~/components/layout/Header';
 import { CustomConfig } from '~/models/configuration.model';
 
 import {
   BoltIcon,
   CreditCardIcon,
-  DocumentTextIcon,
 } from '@heroicons/react/24/outline';
 import { MetaFunction } from '@remix-run/react';
 
@@ -23,7 +20,6 @@ type Tab = 'payment' | 'integration' | 'policy';
 const tabs = [
   { id: 'payment', label: 'Payment', icon: CreditCardIcon },
   { id: 'integration', label: 'Integration Setup', icon: BoltIcon },
-  { id: 'policy', label: 'Policy and Conditions Management', icon: DocumentTextIcon },
 ];
 
 export const meta: MetaFunction = () => {
@@ -46,6 +42,10 @@ function Configuration() {
     handleGetMainConfig()
   }, [])
 
+  const handleUpdateConfig = (config: CustomConfig) => {
+    setMainConfig(config)
+  }
+
   return (
     <>
       <Header title='Configuration' />
@@ -64,9 +64,8 @@ function Configuration() {
           ))}
         </div>
         <div className='w-full'>
-          {active == 'payment' && <Payment mainConfig={mainConfig as CustomConfig} />}
-          {active == 'integration' && <IntegrationSetup mainConfig={mainConfig as CustomConfig} />}
-          {active == 'policy' && <PolicyAndConditions />}
+          {active == 'payment' && <Payment onRefresh={(newConfig) => handleUpdateConfig(newConfig)} mainConfig={mainConfig as CustomConfig} />}
+          {active == 'integration' && <IntegrationSetup onSuccess={(newConfig) => handleUpdateConfig(newConfig)} mainConfig={mainConfig as CustomConfig} />}
         </div>
       </div>
     </>

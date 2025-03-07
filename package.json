@@ -90,6 +90,7 @@
     "react-multiple-select-dropdown-lite": "^2.0.6",
     "react-phone-number-input": "^3.4.5",
     "react-quill": "^2.0.0",
+    "react-quilljs": "^2.0.5",
     "react-select": "^5.8.1",
     "react-slick": "^0.30.2",
     "react-timezone-select": "^3.2.8",

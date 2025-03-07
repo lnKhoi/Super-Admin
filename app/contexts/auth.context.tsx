@@ -19,6 +19,8 @@ type AuthContextType = {
     updateUserInfo: (newValue: User | null) => void;
     handleLogout: () => void
     onPayment: boolean,
+    onUpdateCustomConfig: boolean,
+    setOnUpdateCustomConfig: Dispatch<SetStateAction<boolean>>
     setOnPayment: Dispatch<SetStateAction<boolean>>
     handleRefreshUserInfo: () => void
     hasPermission: (requiredPermissions: Permission | Permission[]) => boolean | undefined
@@ -29,6 +31,7 @@ const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) => {
     const [userInfo, setUserInfo] = useState<User | null>(null);
     const navigate = useNavigate()
     const [onPayment, setOnPayment] = useState<boolean>(false)
+    const [onUpdateCustomConfig, setOnUpdateCustomConfig] = useState(false)
 
     const updateUserInfo = (info: User | null) => {
         setUserInfo(info);
@@ -55,11 +58,12 @@ const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) => {
     };
 
     return (
-        <MyContext.Provider value={{ userInfo, updateUserInfo, handleLogout, handleRefreshUserInfo, onPayment, setOnPayment, hasPermission }}>
+        <MyContext.Provider value={{ userInfo, updateUserInfo, handleLogout, handleRefreshUserInfo, onPayment, setOnPayment, hasPermission, onUpdateCustomConfig, setOnUpdateCustomConfig }}>
             {children}
         </MyContext.Provider>
     );
 };
+
 const useAuthContext = () => {
     const context = useContext(MyContext);
     if (!context) {

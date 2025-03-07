@@ -1,3 +1,5 @@
+import 'react-quill/dist/quill.snow.css';
+
 import React, {
   Suspense,
   useCallback,
@@ -107,6 +109,7 @@ const Editor = ({
         theme="snow"
         modules={modules}
         defaultValue={code}
+        style={{ height: 400 }}
         formats={formats}
         value={code}
         onChange={disabled ? undefined : handleProcedureContentChange} // Disable onChange if disabled

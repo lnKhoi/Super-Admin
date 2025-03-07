@@ -8,6 +8,7 @@ import {
   message,
 } from 'antd';
 import { getListCustomConfigs } from '~/apis/configuration';
+import { useAuthContext } from '~/contexts/auth.context';
 import type { CustomConfig } from '~/models/configuration.model';
 
 import { PlusIcon } from '@heroicons/react/24/outline';
@@ -24,6 +25,7 @@ const CustomConfig: React.FC<{ activeCustomConfig: boolean; setActiveCustomConfi
     const location = useLocation();
     const [modalAddConfig, setModalAddConfig] = useState<boolean>(false);
     const [listConfigs,setListConfigs] = useState<CustomConfig[]>([])
+    const {onUpdateCustomConfig} = useAuthContext()
 
     const [messageApi, contextHolder] = message.useMessage();
 
@@ -43,7 +45,7 @@ const CustomConfig: React.FC<{ activeCustomConfig: boolean; setActiveCustomConfi
 
     useEffect(() => {
         getListCustomConfigs().then(res => setListConfigs(res?.data?.data))
-    },[])
+    },[onUpdateCustomConfig])
 
     const items = [
         {

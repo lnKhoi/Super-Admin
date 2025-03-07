@@ -60,6 +60,7 @@ function ModalAddCustomConfig({ onclose, open, onSuccess }: ModalAddCustomConfig
     createCustomConfig(formattedData).then(res => {
       onclose()
       onSuccess(res.data)
+      form.resetFields()
     })
       .catch(err => messageApi.error(err.message))
       .finally(() => setLoading(false))
@@ -105,10 +106,17 @@ function ModalAddCustomConfig({ onclose, open, onSuccess }: ModalAddCustomConfig
           label="Brand"
           name="brands"
           style={{ marginBottom: 4 }}
+
           labelCol={{ span: 24 }}
           rules={[{ required: true, message: "Brand is required" }]}
         >
-          <Select maxTagCount={2} mode='multiple' placeholder="Select a brand">\
+          <Select
+            filterOption={(input, option) =>
+              // @ts-ignore
+              option?.children?.toLowerCase().includes(input.toLowerCase())
+            }
+            showSearch
+            maxTagCount={2} mode='multiple' placeholder="Select a brand">\
             {brands?.map(b => (
               <Select.Option key={b?.id} value={b?.id}>{b?.name}</Select.Option>
             ))}
