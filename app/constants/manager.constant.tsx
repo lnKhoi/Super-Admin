@@ -5,6 +5,7 @@ import {
   Cog6ToothIcon,
   CreditCardIcon,
   EyeIcon,
+  NewspaperIcon,
   PencilSquareIcon,
   Square3Stack3DIcon,
   Squares2X2Icon,
@@ -30,6 +31,7 @@ export const navItems: NavItem[] = [
   { to: "/admin/users", icon: UsersIcon, label: "Users" },
   { to: "/admin/organizations", icon: Square3Stack3DIcon, label: "Organizations" },
   { to: "/admin/billing", icon: CheckBadgeIcon, label: "Billing" },
+  { to: "/admin/legal-policies", icon: NewspaperIcon, label: "Legal & Policies" },
   { to: "/admin/configurations", icon: WrenchScrewdriverIcon, label: "Configuration" },
   { to: "/admin/settings", icon: Cog6ToothIcon, label: "Settings" },
 ];

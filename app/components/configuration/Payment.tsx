@@ -1,4 +1,7 @@
-import React, { useEffect } from 'react';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
 import {
   Button,
@@ -7,6 +10,7 @@ import {
   InputNumber,
   message,
 } from 'antd';
+import { updateMainConfig } from '~/apis/configuration';
 import {
   DECIMAL_REGEX,
   PERCENT_REGEX,
@@ -15,10 +19,12 @@ import { CustomConfig } from '~/models/configuration.model';
 
 type PaymentProps = {
     mainConfig: CustomConfig
+    onRefresh: (newConfig:CustomConfig) => void
 }
 
-function Payment({ mainConfig }: PaymentProps) {
+function Payment({ mainConfig, onRefresh }: PaymentProps) {
     const [form] = Form.useForm();
+    const [loading, setLoading] = useState<boolean>(false)
 
     useEffect(() => {
         if (mainConfig) {
@@ -26,8 +32,15 @@ function Payment({ mainConfig }: PaymentProps) {
         }
     }, [mainConfig]);
 
-    const onFinish = (values: any) => {
-        message.success('Payment configuration saved successfully!');
+    const onFinish = (values: CustomConfig) => {
+        setLoading(true)
+        updateMainConfig(values)
+            .then(res =>{ 
+                message.success('Update Configuration successfully!')
+                onRefresh(res.data)
+            })
+            .finally(() => setLoading(false))
+            .catch(err => message.error(err.message))
     };
 
     return (
@@ -84,25 +97,25 @@ function Payment({ mainConfig }: PaymentProps) {
                 </Form.Item>
 
                 <Form.Item
-                 rules={[{ required: true, message: 'Please select payment method' }]} 
-                label={<div className='w-[256px] flex items-start flex-col min-w-[256px]'>
-                    <p className='text-[14px] text-gray-800 font-medium'>Payment Methods</p>
-                    <p className='max-w-[256px] text-gray-500 text-xs mt-1'>Supported payment methods</p>
-                </div>}
-                 name='paymentMethod'
-                  className='mb-0'>
-                            <Checkbox.Group  >
-                    <div className='flex items-center gap-5 justify-between'>
-                        <div className='flex items-center w-full gap-3'>
+                    rules={[{ required: true, message: 'Please select payment method' }]}
+                    label={<div className='w-[256px] flex items-start flex-col min-w-[256px]'>
+                        <p className='text-[14px] text-gray-800 font-medium'>Payment Methods</p>
+                        <p className='max-w-[256px] text-gray-500 text-xs mt-1'>Supported payment methods</p>
+                    </div>}
+                    name='paymentMethod'
+                    className='mb-0'>
+                    <Checkbox.Group  >
+                        <div className='flex items-center gap-5 justify-between'>
+                            <div className='flex items-center w-full gap-3'>
                                 <Checkbox value='credit-card'>Credit Card</Checkbox>
                                 <Checkbox value='paypal'>PayPal</Checkbox>
+                            </div>
                         </div>
-                    </div>
-                            </Checkbox.Group>
+                    </Checkbox.Group>
                 </Form.Item>
 
                 <div className='w-full justify-end flex'>
-                    <Button type='primary' htmlType='submit' className='w-[105px]'>Save Changes</Button>
+                    <Button loading={loading} type='primary' htmlType='submit' className='min-w-[105px]'>Save Changes</Button>
                 </div>
             </Form>
         </div>
