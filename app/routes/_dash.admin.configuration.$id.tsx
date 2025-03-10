@@ -7,10 +7,15 @@ import {
   Breadcrumb,
   Button,
   message,
+  Select,
   Skeleton,
 } from 'antd';
 import dayjs from 'dayjs';
-import { deleteBrandFromConfig } from '~/apis/brand';
+import {
+  addBrandsToConfig,
+  deleteBrandFromConfig,
+  getBrands,
+} from '~/apis/brand';
 import { getConfigDetails } from '~/apis/configuration';
 import Avatar from '~/assets/avatar.jpeg';
 import ModalRemoveConfig from '~/components/configuration/ModalRemoveConfig';
@@ -18,7 +23,6 @@ import EditIntegrationSetup
   from '~/components/customConfiguration/EditIntegrationSetup';
 import EditPayment from '~/components/customConfiguration/EditPayment';
 import Header from '~/components/layout/Header';
-import { InputSearch } from '~/components/ui/input-search';
 import { DATE_TIME_FORMAT } from '~/constants/time.constant';
 import { useAuthContext } from '~/contexts/auth.context';
 import { CustomConfig } from '~/models/configuration.model';
@@ -36,11 +40,11 @@ function ConfigDetails() {
     const [configDetails, setConfigDetails] = useState<CustomConfig | null>(null)
     const [messageApi, contextHolder] = message.useMessage();
     const [remove, setRemove] = useState<boolean>(false)
-    const [users, setUsers] = useState<string[]>([])
+    const [selectedBrands, setSelectedBrands] = useState<string[]>([])
     const { onUpdateCustomConfig, setOnUpdateCustomConfig } = useAuthContext()
     const [selectedUser, setSelectedUser] = useState<string>('')
     const [brands, setBrands] = useState<User[]>([])
-    const [loadingType, setLoadingType] = useState<'delete' | 'refresh-brands' | 'loading' | ''>('')
+    const [loadingType, setLoadingType] = useState<'delete' | 'refresh-brands' | 'loading' | '' | 'add-brands'>('')
 
     const handleConfigDetails = (type: string) => {
         type == 'loading' ? setLoadingType('loading') : setLoadingType('')
@@ -49,8 +53,14 @@ function ConfigDetails() {
             .catch(err => messageApi.error(err.message))
     }
 
+
+    const handlegGetBrands = () => {
+        getBrands().then(res => setBrands(res.data.data))
+    }
+
     useEffect(() => {
         handleConfigDetails('loading')
+        handlegGetBrands()
     }, [params.id])
 
     const handleUpdateCustomConfig = (config: CustomConfig) => {
@@ -71,6 +81,19 @@ function ConfigDetails() {
             })
             .finally(() => setLoadingType(''))
             .catch(err => message.error(err.message))
+    }
+
+    const handleAddBrandsToConfig = () => {
+        setLoadingType('add-brands')
+        addBrandsToConfig(configDetails?.id as string, selectedBrands)
+            .then(res => {
+                message.success('Add brands successfully!')
+                setSelectedBrands([])
+                handleConfigDetails('no-loading')
+            })
+            .catch(err => message.error(err.message))
+            .finally(() => setLoadingType(''))
+
     }
 
     return (
@@ -106,9 +129,22 @@ function ConfigDetails() {
                         <div className='bg-gray-100 p-4 font-medium'>Brand</div>
                         <div className='flex items-center justify-between gap-3 w-full mt-3 px-5'>
                             <div className='w-full'>
-                                <InputSearch placeholder='Add brand by name or email' />
+                                <Select
+                                    value={selectedBrands}
+                                    className='w-full'
+                                    filterOption={(input, option) =>
+                                        // @ts-ignore
+                                        option?.children?.toLowerCase().includes(input.toLowerCase())
+                                    }
+                                    onChange={(e) => setSelectedBrands(e)}
+                                    showSearch
+                                    maxTagCount={2} mode='multiple' placeholder="Add brand by name or email">
+                                    {brands?.map(b => (
+                                        <Select.Option key={b?.id} value={b?.id}>{b?.email}</Select.Option>
+                                    ))}
+                                </Select>
                             </div>
-                            <Button type='primary'>Add</Button>
+                            <Button loading={loadingType == 'add-brands'} onClick={handleAddBrandsToConfig} type='primary'>Add</Button>
                         </div>
 
                         {/* Users */}

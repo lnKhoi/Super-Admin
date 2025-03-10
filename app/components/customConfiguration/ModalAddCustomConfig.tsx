@@ -116,9 +116,9 @@ function ModalAddCustomConfig({ onclose, open, onSuccess }: ModalAddCustomConfig
               option?.children?.toLowerCase().includes(input.toLowerCase())
             }
             showSearch
-            maxTagCount={2} mode='multiple' placeholder="Select a brand">\
+            maxTagCount={2} mode='multiple' placeholder="Select a brand">
             {brands?.map(b => (
-              <Select.Option key={b?.id} value={b?.id}>{b?.name}</Select.Option>
+              <Select.Option key={b?.id} value={b?.id}>{b?.email}</Select.Option>
             ))}
           </Select>
         </Form.Item>

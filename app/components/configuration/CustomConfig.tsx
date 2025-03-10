@@ -24,8 +24,8 @@ const CustomConfig: React.FC<{ activeCustomConfig: boolean; setActiveCustomConfi
     const navigate = useNavigate();
     const location = useLocation();
     const [modalAddConfig, setModalAddConfig] = useState<boolean>(false);
-    const [listConfigs,setListConfigs] = useState<CustomConfig[]>([])
-    const {onUpdateCustomConfig} = useAuthContext()
+    const [listConfigs, setListConfigs] = useState<CustomConfig[]>([])
+    const { onUpdateCustomConfig } = useAuthContext()
 
     const [messageApi, contextHolder] = message.useMessage();
 
@@ -40,12 +40,12 @@ const CustomConfig: React.FC<{ activeCustomConfig: boolean; setActiveCustomConfi
 
     const handleCreateNewCustomConfig = (newConfig: CustomConfig) => {
         messageApi.success(`${newConfig.name} created successfully!`)
-        setListConfigs([newConfig,...listConfigs])
+        setListConfigs([newConfig, ...listConfigs])
     }
 
     useEffect(() => {
         getListCustomConfigs().then(res => setListConfigs(res?.data?.data))
-    },[onUpdateCustomConfig])
+    }, [onUpdateCustomConfig])
 
     const items = [
         {
@@ -72,7 +72,7 @@ const CustomConfig: React.FC<{ activeCustomConfig: boolean; setActiveCustomConfi
                     <div className='bg-black z-20 w-[1.4px] top-0 absolute left-0 transition-all duration-300 ease-in-out' style={{ height: heightPercentage }}></div>
                     <div className='bg-gray-200 w-[1.4px] top-0 absolute z-0 left-0 transition-all duration-300 ease-in-out' style={{ height: '100%' }}></div>
                     <div className='flex pl-5 flex-col gap-2'>
-                        {listConfigs?.map((e,idx) => (
+                        {listConfigs?.map((e, idx) => (
                             <p
                                 key={e.id}
                                 onClick={() => {
@@ -96,10 +96,12 @@ const CustomConfig: React.FC<{ activeCustomConfig: boolean; setActiveCustomConfi
         <div className='custom-config -mt-0.5'>
             {contextHolder}
             <Collapse expandIcon={() => null} className='border-none rounded-md' items={items} />
-            <ModalAddCustomConfig
-                onSuccess={(newConfig: CustomConfig) => handleCreateNewCustomConfig(newConfig)}
-                open={modalAddConfig}
-                onclose={() => setModalAddConfig(false)} />
+            {modalAddConfig && (
+                <ModalAddCustomConfig
+                    onSuccess={(newConfig: CustomConfig) => handleCreateNewCustomConfig(newConfig)}
+                    open={modalAddConfig}
+                    onclose={() => setModalAddConfig(false)} />
+            )}
         </div>
     );
 };
