@@ -38,7 +38,7 @@ function ModalRemoveConfig({ onClose, onSuccess, open, id }: ModalRemoveConfigPr
                 </div>
 
                 <h2 className='font-semibold text-xl text-gray-800 mt-5'>Remove Custom Config</h2>
-                <p className='w-[308px] mt-[6px] font-normal text-gray-500 text-center'>Are you sure you want to remove this custom configuration? This action will reset the brand's settings to the system defaul.</p>
+                <p className='w-[308px] mt-[6px] font-normal text-gray-500 text-center'>Are you sure you want to remove this custom configuration? This action will reset the brand's settings to the system default.</p>
                 <div className='flex items-center gap-3 w-full mt-9'>
                     <Button onClick={onClose} className='w-full'>No</Button>
                     <Button onClick={handleRemoveConfig} loading={loading} className='text-white w-full bg-red-500' >Yes</Button>

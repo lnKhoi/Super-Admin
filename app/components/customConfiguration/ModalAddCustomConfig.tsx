@@ -14,7 +14,10 @@ import {
   Select,
 } from 'antd';
 import { getBrands } from '~/apis/brand';
-import { createCustomConfig } from '~/apis/configuration';
+import {
+  createCustomConfig,
+  getMainConfig,
+} from '~/apis/configuration';
 import Shopify from '~/assets/shopify.png';
 import Woo from '~/assets/woo.png';
 import { configMethods } from '~/constants/config.constant';
@@ -51,9 +54,9 @@ function ModalAddCustomConfig({ onclose, open, onSuccess }: ModalAddCustomConfig
         commissionFee: Number(values.commissionFee),
         monthlyFee: Number(values.monthlyFee),
         creditFee: Number(values.creditFee),
-        paymentMethod: values.integration
+        paymentMethod: values.paymentMethod
       },
-      integration: values.integrationSetup,
+      integration: values.integration,
       brands: values.brands || [],
     };
 
@@ -66,8 +69,16 @@ function ModalAddCustomConfig({ onclose, open, onSuccess }: ModalAddCustomConfig
       .finally(() => setLoading(false))
   };
 
+  const handleGetMainConfig = () => {
+    getMainConfig().then(res => {
+      form.setFieldsValue(res.data.payment)
+      form.setFieldValue('integration',res.data.integration)
+    } )
+  }
+
   useEffect(() => {
     handlegGetBrands()
+    handleGetMainConfig()
   }, [])
 
   return (
@@ -184,7 +195,7 @@ function ModalAddCustomConfig({ onclose, open, onSuccess }: ModalAddCustomConfig
                 <p className='max-w-[256px] text-gray-500 text-xs mt-1'>Supported payment methods</p>
               </div>
             }
-            name='integration' // Ensure this matches what you're expecting in `onFinish`
+            name='paymentMethod' // Ensure this matches what you're expecting in `onFinish`
             className='mb-0'
           >
             <Checkbox.Group className="w-full flex">
@@ -198,7 +209,7 @@ function ModalAddCustomConfig({ onclose, open, onSuccess }: ModalAddCustomConfig
         <div className={`${selectedMethod == 'Payment' ? 'hidden' : 'block'} `}>
           <Form.Item
             rules={[{ required: true, message: '' },]}
-            name="integrationSetup"
+            name="integration"
             required
           >
             <Checkbox.Group className="w-full flex">
