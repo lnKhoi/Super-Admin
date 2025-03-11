@@ -89,6 +89,7 @@ function ConfigDetails() {
             .then(res => {
                 message.success('Add brands successfully!')
                 setSelectedBrands([])
+                handlegGetBrands()
                 handleConfigDetails('no-loading')
             })
             .catch(err => message.error(err.message))
@@ -144,7 +145,13 @@ function ConfigDetails() {
                                     ))}
                                 </Select>
                             </div>
-                            <Button loading={loadingType == 'add-brands'} onClick={handleAddBrandsToConfig} type='primary'>Add</Button>
+                            <Button
+                                disabled={selectedBrands.length == 0}
+                                loading={loadingType == 'add-brands'}
+                                onClick={handleAddBrandsToConfig}
+                                type='primary'>
+                                Add
+                            </Button>
                         </div>
 
                         {/* Users */}
