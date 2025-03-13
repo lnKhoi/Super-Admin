@@ -28,6 +28,8 @@ import {
 import { CustomConfig } from '~/models/configuration.model';
 import { User } from '~/models/User.model';
 
+import ModalViewProfile from '../configuration/ModalViewProfile';
+
 type ModalAddCustomConfigProps = {
   open: boolean,
   onclose: () => void
@@ -41,6 +43,7 @@ function ModalAddCustomConfig({ onclose, open, onSuccess }: ModalAddCustomConfig
   const [loading, setLoading] = useState<boolean>(false)
   const [messageApi, contextHolder] = message.useMessage();
   const [brands, setBrands] = useState<User[]>([])
+  const [selectedUser, setSelectedUser] = useState<string>('')
 
   const handlegGetBrands = () => {
     getBrands().then(res => setBrands(res.data.data))
@@ -72,8 +75,8 @@ function ModalAddCustomConfig({ onclose, open, onSuccess }: ModalAddCustomConfig
   const handleGetMainConfig = () => {
     getMainConfig().then(res => {
       form.setFieldsValue(res.data.payment)
-      form.setFieldValue('integration',res.data.integration)
-    } )
+      form.setFieldValue('integration', res.data.integration)
+    })
   }
 
   useEffect(() => {
@@ -122,14 +125,37 @@ function ModalAddCustomConfig({ onclose, open, onSuccess }: ModalAddCustomConfig
           rules={[{ required: true, message: "Brand is required" }]}
         >
           <Select
+            mode="multiple"
+            showSearch
+            placeholder="Select a brand"
+            maxTagCount={2}
+            optionLabelProp="label"
+            tokenSeparators={[","]}
+            dropdownRender={(menu) => (
+              <div onMouseDown={(e) => e.stopPropagation()}>{menu}</div>
+            )}
+            menuItemSelectedIcon={null} // Removes the checkmark
             filterOption={(input, option) =>
               // @ts-ignore
-              option?.children?.toLowerCase().includes(input.toLowerCase())
+              option?.label?.toLowerCase().includes(input.toLowerCase()) ||
+              option?.email?.toLowerCase().includes(input.toLowerCase())
             }
-            showSearch
-            maxTagCount={2} mode='multiple' placeholder="Select a brand">
-            {brands?.map(b => (
-              <Select.Option key={b?.id} value={b?.id}>{b?.email}</Select.Option>
+          >
+            {brands?.map((b) => (
+              <Select.Option key={b?.id} value={b?.id} label={b?.name}>
+                <div className="flex items-center justify-between">
+                  <div className="flex flex-col gap-[2px]">
+                    <span className="text-sm font-medium text-gray-800">{b?.name}</span>
+                    <span className="text-xs font-normal text-gray-500">{b.email}</span>
+                  </div>
+                  <Button
+                  onMouseDown={(e) => e.preventDefault()}
+                    onClick={(e) => { e.stopPropagation(); setSelectedUser(b.id) }}
+                    type="link">
+                    View Profile
+                  </Button>
+                </div>
+              </Select.Option>
             ))}
           </Select>
         </Form.Item>
@@ -239,8 +265,9 @@ function ModalAddCustomConfig({ onclose, open, onSuccess }: ModalAddCustomConfig
             </Checkbox.Group>
           </Form.Item>
         </div>
-
       </Form>
+      {/* View User Profile */}
+      <ModalViewProfile id={selectedUser} open={selectedUser !==''} onClose={() => setSelectedUser('')} />
     </Drawer>
   )
 }

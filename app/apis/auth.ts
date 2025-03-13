@@ -82,3 +82,6 @@ export const resendOtp = (email: string) => {
   return postData(`/api/v1/super-admin/resend-otp/super-admin-login`, { email })
 }
 
+export const getUserDetails = (id: string) => {
+  return getData(`/api/v1/super-admin/brand-detail/${id}`)
+}

@@ -22,6 +22,12 @@ export type Brand = {
   id?: string;
   phone?: string;
   industry?: string[];
+  businessEmail?:string
+  contactPointEmail?:string
+  contactPointFirstName?:string
+  contactPointLastName?:string
+  contactPointTitle?:string
+  websiteUrl?:string
   category?: string[]
   created_at?: number;
   updated_at?: number;
