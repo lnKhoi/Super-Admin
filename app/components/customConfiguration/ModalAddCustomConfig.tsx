@@ -88,6 +88,7 @@ function ModalAddCustomConfig({ onclose, open, onSuccess }: ModalAddCustomConfig
     <Drawer
       title='Add Custom Configure'
       width={650}
+      className='custom-config'
       open={open}
       onClose={onclose}
       footer={<div className='w-full justify-end gap-2 flex'>
