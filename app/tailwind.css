@@ -334,3 +334,7 @@ input::placeholder {
   background-color: transparent !important;
   display: none !important;
 }
+
+.custom-preview .ant-modal-content {
+  padding: 4px 4px !important;
+}
