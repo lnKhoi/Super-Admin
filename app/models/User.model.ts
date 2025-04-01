@@ -22,6 +22,7 @@ export type Brand = {
   id?: string;
   phone?: string;
   industry?: string[];
+  logoUrl?:string
   businessEmail?:string
   contactPointEmail?:string
   contactPointFirstName?:string
